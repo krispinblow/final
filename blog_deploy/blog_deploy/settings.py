@@ -16,7 +16,7 @@ from django.conf import settings
 from django.urls import reverse_lazy
 
 #import braintree
-#import dj_database_url
+import dj_database_url
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -72,6 +72,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# clear out defaults
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
 ROOT_URLCONF = 'blog_deploy.urls'
 
 TEMPLATES = [
@@ -85,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -96,8 +101,6 @@ WSGI_APPLICATION = 'blog_deploy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
